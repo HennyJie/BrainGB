@@ -2,8 +2,8 @@
 <img src="braingb_logo.png" width="100%" class="center" alt="logo"/>
 </p>
 
-<!-- BrainGB is an open-source benchmark package for Brain Network Analysis with Graph Neural Networks based on [Pytorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/). It features modularized design space of interest of GNNs for brain networks, and standardized evaluation. -->
-BrainGB is a *unified*, *modular*, *scalable*, and *reproducible* framework established for brain network analysis with GNNs. It is designed to enable fair evaluation with accessible datasets, standard settings, and baselines to foster a collaborative environment within computational neuroscience and other related communities. This library is built upon [Pytorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/).
+<!-- BrainGB is an open-source benchmark package for Brain Network Analysis with Graph Neural Networks based on [PyTorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/). It features modularized design space of interest of GNNs for brain networks, and standardized evaluation. -->
+BrainGB is a *unified*, *modular*, *scalable*, and *reproducible* framework established for brain network analysis with GNNs. It is designed to enable fair evaluation with accessible datasets, standard settings, and baselines to foster a collaborative environment within computational neuroscience and other related communities. This library is built upon [PyTorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/).
 
 To foster research, we provide an out-of-box package that can be installed directly using pip, with detailed tutorials available on our hosted [website](https://brainnet.us/). 
 
@@ -11,7 +11,7 @@ To foster research, we provide an out-of-box package that can be installed direc
 [![HennyJie - BrainGB](https://img.shields.io/static/v1?label=HennyJie&message=BrainGB&color=blue&logo=github)](https://github.com/HennyJie/BrainGB "Go to GitHub repo")
 [![stars - BrainGB](https://img.shields.io/github/stars/HennyJie/BrainGB?style=social)](https://github.com/HennyJie/BrainGB)
 [![forks - BrainGB](https://img.shields.io/github/forks/HennyJie/BrainGB?style=social)](https://github.com/HennyJie/BrainGB)
-![languge](https://img.shields.io/github/languages/top/HennyJie/BrainGB?color=lightgrey)
+![language](https://img.shields.io/github/languages/top/HennyJie/BrainGB?color=lightgrey)
 ![lines](https://img.shields.io/tokei/lines/github/HennyJie/BrainGB?color=red)
 ![license](https://img.shields.io/github/license/HennyJie/BrainGB)
 ![visitor](https://visitor-badge.glitch.me/badge?page_id=BrainGB)
@@ -25,7 +25,7 @@ To foster research, we provide an out-of-box package that can be installed direc
 BrainGB is a python package for testing Graph Neural Networks on Brain Networks.  -->
 # Library Highlights
 Our BrainGB implements four main modules of GNN models for brain network analysis:
-* **Node feature construction**: studies practical and effective methods to initialize either postional or structural node features for each brain region.
+* **Node feature construction**: studies practical and effective methods to initialize either positional or structural node features for each brain region.
 * **Message passing mechanisms**: update the node representation of each brain region iteratively by aggregating neighbor features through local connections.
 * **Attention-enhanced message passing**: incorporates attention mechanism to enhance the message passing scheme of GNNs. 
 * **Pooling strategies**: operate on the set of node vectors to get a graph-level representation.
@@ -73,14 +73,14 @@ Notice that if you install the package through pip, the dependencies are automat
 # Getting Started
 
 To import the models detailed in the paper:
-```pycon
+```Python
 from BrainGB import GAT, GCN, BrainNN, GCN
 ```
 
 The BrainNN is required and will be served as the parent module of the GAT, GCN models. You may choose either GAT or GCN as the submodule. 
 
 To initialize a GCN model
-```pycon
+```Python
 sample: Data = Data()  # A torch geometric data
 
 num_features = data.x.shape[1]
@@ -96,17 +96,17 @@ To initialize a GAT model, simply replace the GCN with GAT. Both models are cust
 # Customizing Your Own GNN Models
 
 ## Node Feature Construction
-In `src.dataset.tranforms`, BrainGB provides the `BaseTransform` base class, which offers a unversal interface for node feature initialization for each brain region. Specifically, BrainGB implements the following node feature construction functions: 
+In `src.dataset.tranforms`, BrainGB provides the `BaseTransform` base class, which offers a universal interface for node feature initialization for each brain region. Specifically, BrainGB implements the following node feature construction functions: 
 
 | Node Features                            | Option Name        |
 | --------------------------------------- | ----------------- |
-| Indentity                        | `identity`      |
+| Identity                        | `identity`      |
 | Eigen                      | `eigenvector`    |
 | Degree                   | `degree`  |
 | Degree Profile                    | `LDP`  |
 | Connection Profile           | `adj` |
 
-To adjust the type of node features, simply set the choosen option name for the input parameter `node_features`.
+To adjust the type of node features, simply set the chosen option name for the input parameter `node_features`.
 
 ## Message Passing Mechanisms
 In `models.gcn`, BrainGB provides the base class `MPGCNConv` and different message vector designs including: 
@@ -118,7 +118,7 @@ In `models.gcn`, BrainGB provides the base class `MPGCNConv` and different messa
 | Node Edge Concat        | `edge_node_concate` |
 | Node Concat        | `node_concate` |
 
-To adjust the messsage passing schemes, simply set the input parameter `model_name` as `gcn` and chose an option name for the parameter `gcn_mp_type`.
+To adjust the message passing schemes, simply set the input parameter `model_name` as `gcn` and chose an option name for the parameter `gcn_mp_type`.
 
 ## Attention-Enhanced Message Passing
 In `models.gat`, BrainGB provides the base class `MPGATConv` and different versions of attention-enhanced message passing designs including:
@@ -135,14 +135,14 @@ Note that some of these options are corresponding attention enhanced version of 
 To adjust the attention-enhanced message passing schemes, simply set the input parameter `model_name` as `gat` and chose an option name for the parameter `gat_mp_type`.
 
 ## Pooling Strategies
-The pooling stretagy is controlled by setting the `self.pooling` in the chosen model. Specifically, BrainGB implements the following three basic pooling strategies: 
+The pooling strategy is controlled by setting the `self.pooling` in the chosen model. Specifically, BrainGB implements the following three basic pooling strategies: 
 | Pooling Strategies                    | Option Name          |
 | ------------------------------------ | ------------------- |
 | Mean Pooling | `mean`  |
 | Sum Pooling        | `sum` |
 | Concat Pooling | `concat`  |
 
-To adjust the pooling strategies, simply set the choosen option name for the input parameter `pooling`.
+To adjust the pooling strategies, simply set the chosen option name for the input parameter `pooling`.
 
 ## 
 
@@ -150,10 +150,10 @@ To adjust the pooling strategies, simply set the choosen option name for the inp
 
 The repository also comes with example scripts. To train our model on any of the datasets we tested, simply run:
 ```shell
-python -m main.example_main --dataset_name=<dataset_name> [--model_name=<model_name> --gcn_mp_type=<mp_mechanism>  --gat_mp_type=<attention_mp_mechanism> --node_feature=<feature_name> --pooling=<pooling_name> --n_GNN_layer=<GNN_num> --n_MLP_layers=<MLP_num> --epochs=<epoch_num> --k_fold_splits=<split_num> --test_interval=<evaluation_interval_num>]
+python -m main.example_main --dataset_name=<dataset_name> [--model_name=<model_name> --gcn_mp_type=<mp_mechanism>  --gat_mp_type=<attention_mp_mechanism> --node_features=<feature_name> --pooling=<pooling_name> --n_GNN_layer=<GNN_num> --n_MLP_layers=<MLP_num> --hidden_dim=<hidden_layer_dimension> --epochs=<epoch_num> --k_fold_splits=<split_num> --test_interval=<evaluation_interval_num>]
 ```
 
-The `dataset_name` is the name of the dataset to use. We include the following four datasets in our paper:
+The `dataset_name` is the name of the dataset to use (required parameter). We include the following four datasets in our paper:
 
 - HIV
 - PNC (Can be downloaded [here](https://www.nitrc.org/projects/pnc/))
@@ -164,12 +164,18 @@ You can also construct your own datasets by following the instructions on neuroi
 
 Please place the dataset files in the `datasets` folder under the package examples folder. Create the folder if it does not exist.
 
-The `model_name` is the name of the model you want to use. Choose `gcn` to test the message passing variants without attention and `gat` to test the attention-enhanced message passing mechanisms.
+The `model_name` specifies the backbone model type. Choose `gcn` to test the message passing variants without attention and `gat` to test the attention-enhanced message passing mechanisms. Specifically, use `gcn_mp_type` to set a message vector design and use `gat_mp_type` to set an attention-enhancing mechanism.
+
+The `node_features` specifies the artificial node feature initialization for each brain region.
+
+The `pooling` specifies the pooling strategy to get a graph-level representation for each subject.
+
+You can also change other hyper-parameters, such as `--n_GNN_layer`, `--n_MLP_layers`, `--hidden_dim`, `--epochs`, etc., to adjust the detailed model design or control the training process. All those hyper-parameters can be automatically searched and optimized using the AutoML tool [NNI](https://github.com/microsoft/nni) by passing `--enable_nni`.
 
 
 # Contribution
 
-Feel free to open an [issue](issues/new) should you find anything unexpected or [create pull requests](pulls) to add your own work! We welcome comtributions to this benchmark work and the package.
+Feel free to open an [issue](issues/new) should you find anything unexpected or [create pull requests](pulls) to add your own work! We welcome contributions to this benchmark work and the package.
 
 # Citation
 
