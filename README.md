@@ -160,7 +160,7 @@ The `dataset_name` is the name of the dataset to use (required parameter). We in
 - PPMI (Can be downloaded [here](https://www.ppmi-info.org/access-data-specimens/download-data))
 - ABCD (Can be downloaded [here](https://nda.nih.gov/abcd))
 
-You can also construct your own datasets by following the instructions on neuroimaging preprocessing and [functional](https://brainnet.us/fmri-instructions/) or [structural](https://brainnet.us/dti-instructions/) brain network construction on our website.
+You can also construct your own datasets by following the [instructions](https://brainnet.us/instructions/) on neuroimaging preprocessing and brain network construction on our website.
 
 Please place the dataset files in the `datasets` folder under the package examples folder. Create the folder if it does not exist.
 
