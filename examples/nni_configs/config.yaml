@@ -1,0 +1,21 @@
+experimentName: BrainGB
+
+trialConcurrency: 2
+
+maxExecDuration: 72h
+
+trainingServicePlatform: local
+
+localConfig:
+  useActiveGpu: true
+  maxTrialNumPerGpu: 2
+
+useAnnotation: false
+searchSpacePath: search_space.json
+tuner:
+  builtinTunerName: TPE
+  classArgs:
+    optimize_mode: maximize
+trial:
+  command: python run.py --target example_main.py --enable_nni --dataset PPMI
+  codeDir: ../

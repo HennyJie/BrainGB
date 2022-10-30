@@ -1,0 +1,30 @@
+{
+    "lr": {
+        "_type": "choice",
+        "_value": [0.1, 0.01, 0.001, 0.0001]
+    },
+    "hidden_dim": {
+        "_type": "choice",
+        "_value": [8, 12, 16, 32]
+    },
+    "n_GNN_layers": {
+        "_type": "choice",
+        "_value": [1, 2, 3, 4]
+    },
+    "n_MLP_layer": {
+        "_type": "choice",
+        "_value": [1, 2, 3, 4]
+    },
+    "initial_epochs": {
+        "_type": "choice",
+        "_value": [50, 80]
+    },
+    "weight_decay": {
+        "_type": "choice",
+        "_value": [1e-5, 1e-4, 1e-3]
+    },
+    "edge_emb_dim": {
+        "_type": "choice",
+        "_value": [32, 64, 96, 128, 256, 512, 1024]
+    }
+}
