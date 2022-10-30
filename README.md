@@ -74,7 +74,7 @@ Notice that if you install the package through pip, the dependencies are automat
 
 To import the models detailed in the paper:
 ```Python
-from BrainGB import GAT, GCN, BrainNN, GCN
+from BrainGB.models import GAT, GCN, BrainNN, GCN
 ```
 
 The BrainNN is required and will be served as the parent module of the GAT, GCN models. You may choose either GAT or GCN as the submodule. 
