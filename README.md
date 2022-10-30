@@ -3,9 +3,11 @@
 </p>
 
 <!-- BrainGB is an open-source benchmark package for Brain Network Analysis with Graph Neural Networks based on [PyTorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/). It features modularized design space of interest of GNNs for brain networks, and standardized evaluation. -->
+Update: BrainGB is now officially accepted to [IEEE Transactions on Medical Imaging](https://www.embs.org/tmi/) (TMI, IF: 11.037) - Special Issue on Geometric Deep Learning in Medical Imaging.
+
 BrainGB is a *unified*, *modular*, *scalable*, and *reproducible* framework established for brain network analysis with GNNs. It is designed to enable fair evaluation with accessible datasets, standard settings, and baselines to foster a collaborative environment within computational neuroscience and other related communities. This library is built upon [PyTorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/).
 
-To foster research, we provide an out-of-box package that can be installed directly using pip, with detailed tutorials available on our hosted [website](https://brainnet.us/). For more details, please check our paper [here](https://hejiecui.com/files/papers/braingb.pdf).
+To foster research, we provide an out-of-box package that can be installed directly using pip, with detailed tutorials available on our hosted [website](https://brainnet.us/). For more details, please check our paper [here](https://arxiv.org/abs/2204.07054).
 
 ---
 [![HennyJie - BrainGB](https://img.shields.io/static/v1?label=HennyJie&message=BrainGB&color=blue&logo=github)](https://github.com/HennyJie/BrainGB "Go to GitHub repo")
@@ -185,7 +187,7 @@ Please cite our paper if you find this code useful for your work:
 @article{cui2022braingb,
 author = {Cui, Hejie and Dai, Wei and Zhu, Yanqiao and Kan, Xuan and Chen Gu, Antonio Aodong and Lukemire, Joshua and Zhan, Liang and He, Lifang and Guo, Ying and Yang, Carl},
 title = {{BrainGB: A Benchmark for Brain Network Analysis with Graph Neural Networks}},
-journal={ArXiv.org},
+journal={TMI},
 year = {2022},
 }
 ```
