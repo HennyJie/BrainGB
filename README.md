@@ -9,6 +9,10 @@ BrainGB is a *unified*, *modular*, *scalable*, and *reproducible* framework esta
 
 To foster research, we provide an out-of-box package that can be installed directly using pip, with detailed tutorials available on our hosted [website](https://brainnet.us/). For more details, please check our paper [here](https://arxiv.org/abs/2204.07054).
 
+### Acknowledgement
+
+The development of this toolbox is partially supported by NIH (R01MH105561, R01MH118771, R01AG071243, R01MH125928, U01AG068057), NSF (IIS 2045848, IIS 1837956) and ONR (N00014-18-1-2009).
+
 ---
 [![HennyJie - BrainGB](https://img.shields.io/static/v1?label=HennyJie&message=BrainGB&color=blue&logo=github)](https://github.com/HennyJie/BrainGB "Go to GitHub repo")
 [![stars - BrainGB](https://img.shields.io/github/stars/HennyJie/BrainGB?style=social)](https://github.com/HennyJie/BrainGB)
