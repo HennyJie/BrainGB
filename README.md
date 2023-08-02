@@ -3,11 +3,10 @@
 </p>
 
 <!-- BrainGB is an open-source benchmark package for Brain Network Analysis with Graph Neural Networks based on [PyTorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/). It features modularized design space of interest of GNNs for brain networks, and standardized evaluation. -->
-Update: BrainGB is now officially accepted to [IEEE Transactions on Medical Imaging](https://www.embs.org/tmi/) (TMI, IF: 11.037) - Special Issue on Geometric Deep Learning in Medical Imaging.
 
 BrainGB is a *unified*, *modular*, *scalable*, and *reproducible* framework established for brain network analysis with GNNs. It is designed to enable fair evaluation with accessible datasets, standard settings, and baselines to foster a collaborative environment within computational neuroscience and other related communities. This library is built upon [PyTorch](https://pytorch.org) and [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/latest/).
 
-To foster research, we provide an out-of-box package that can be installed directly using pip, with detailed tutorials available on our hosted [website](https://brainnet.us/). For more details, please check our paper [here](https://arxiv.org/abs/2204.07054).
+The [BrainGB paper](https://cs.emory.edu/~jyang71/files/braingb.pdf) is published in [IEEE Transactions on Medical Imaging](https://www.embs.org/tmi/) (TMI, IF: 11.037) - Special Issue on Geometric Deep Learning in Medical Imaging. To foster research, we also provide an out-of-box package that can be installed directly using pip, with detailed tutorials available on our hosted [BrainGB website](https://brainnet.us/). 
 
 ### Acknowledgement
 
