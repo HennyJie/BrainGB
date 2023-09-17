@@ -37,19 +37,42 @@ Our BrainGB implements four main modules of GNN models for brain network analysi
 
 BrainGB also implements utility functions for model training, performance evaluation, and experiment management.
 
-# Installation
+# Using BrainGB
+There are two ways to use BrainGB: the first is running direct experiments with BrainGB, and the second is integrating BrainGB into your existing research projects. Follow the sections below to learn more.
 
-To install BrainGB as a package, simply run
+## Direct Experiments with BrainGB
+
+### 1. Obtaining Datasets
+
+#### **ABIDE Dataset**
+We understand the challenges faced by researchers in accessing certain datasets due to restrictions. To facilitate your experimentation with BrainGB, we provide the [Autism Brain Imaging Data Exchange (ABIDE) dataset](http://fcon_1000.projects.nitrc.org/indi/abide/abide_I.html), which is publicly accessible and does not require special access permissions. 
+
+- [Download and Preprocess ABIDE dataset here](https://github.com/Wayfear/FBNETGEN/tree/main/util/abide)
+
+
+#### **Datasets Requiring Access**
+For a detailed exploration of other datasets like **PNC**, **PPMI**, and **ABCD** utilized in our BrainGB studies, which are not publicly accessible and require specific access permissions, please refer to the following:
+
+- [Other Datasets and Decription](https://braingb.us/datasets/)
+
+- [Preprocessing Steps and Protocols](https://braingb.us/preprocessing/)
+
+
+You can also construct your own datasets by following the instructions on neuroimaging preprocessing and functional or structural brain network construction on our [website](https://braingb.us/preprocessing/).
+
+---
+
+### 2. Quick Setup
+
+Clone the repository and Install required dependencies:
 ```shell
-pip install BrainGB
+git clone https://github.com/HennyJie/BrainGB.git
 ```
-
-Alternatively, you can also download the repository from Github. The main package is under the src folder. If you choose to go with this method, please check the [Specification of Dependencies](#Specification-of-Dependencies) section for dependency requirements. 
-
-# Specification of Dependencies
-
-BrainGB depends on the following frameworks:
-
+Navigate to the repository and install dependencies:
+```shell
+pip install -r requirements.txt
+```
+BrainGB depends on the following packages:
 ```
 torch~=1.10.2
 numpy~=1.22.2
@@ -67,40 +90,51 @@ torch-geometric~=2.0.3
 h5py~=3.6.0
 ```
 
-To install the dependencies, run:
+---
+
+### 3. Running Example
+Use the ABIDE dataset as an example, you should first place the dataset file "abide.npy" (genereated from [step 1](#1-obtaining-datasets)) in the `datasets` folder under the `examples` folder (Create the folder if it does not exist). The `abide.npy` file contains the following contents:
+
+- **timeseries**: Represents the BOLD time series data for each subject. It's a numpy array with the shape (#sub, #ROI, #timesteps).
+  
+- > **Label**: Provides the diagnosis label for Autism spectrum disorder for each subject. '0' denotes negative, and '1' indicates positive. It's a numpy array of shape (#sub).
+  
+- > **corr**: The correlation matrix calculated from BOLD time series data. It's a numpy array with the shape (#sub, #ROIs, #ROIs).
+  
+- **pcorr**: Represents the partial correlation matrix derived from the BOLD time series data. It's a numpy array with dimensions (#sub, #ROIs, #ROIs).
+  
+- **site**: Specifies where the data was collected for each subject. It's a numpy array with shape (#sub).
+
+**`Important Note`**: `"Label"` and `"corr matrix"` are the actual *inputs* for BrainGB. `Label` represents the target outcome we are interested in predicting, often indicating the diagnosis or condition of a subject in a brain study. `corr matrix` describes the associated Brain Network. If you are considering running BrainGB using your own dataset, it's important to format your Label and corr matrix similarly to ensure compatibility and accurate results. Ensure that `Label` is in a *numpy array* of shape **(#sub)** and `corr matrix` is structured as a *numpy array* with the shape **(#sub, #ROIs, #ROIs)**.<br><br>
+
+
+
+#### **Run the BrainGB code, execute the following command**:
 ```shell
-pip install -r requirements.txt
+python -m main.example_main --dataset_name ABIDE --pooling concat --gcn_mp_type edge_node_concate --hidden_dim 256
+```
+The parameter `pooling` specifies the pooling strategy to get a graph-level representation for each subject and `gcn_mp_type` sets a message vector design for the `gcn` model. If you choose `gat` as the backbone model, you can use `gat_mp_type` to set an attention-enhancing mechanism.
+
+For other hyper-parameters like `--n_GNN_layer`, `--n_MLP_layers`, `--hidden_dim`, `--epochs`, etc., you can modify them to adjust the detailed model design or control the training process. If you'd like to automatically search and optimize these hyper-parameters, use the AutoML tool NNI with the `--enable_nni` command.
+
+Upon successful execution, you should observe an output similar to this:
+
+```plaintext
+Processing...
+Done!
+2023-09-10 15:54:28,486 - Loaded dataset: ABIDE
+...
+2023-09-10 15:56:29,493 - (Train Epoch 9), test_micro=66.34, test_macro=65.10, test_auc=72.91
+...
+2023-09-10 17:37:46,561 - (Train Epoch 99), test_micro=64.68, test_macro=64.59, test_auc=70.03
+2023-09-10 17:37:47,489 - (Initial Performance Last Epoch) | test_micro=64.68, test_macro=64.59, test_auc=70.03
+2023-09-10 17:37:47,489 - (K Fold Final Result)| avg_acc=65.31 +-  1.58, avg_auc=71.29 +- 2.89, avg_macro=64.43 +- 1.87
 ```
 
-Notice that if you install the package through pip, the dependencies are automatically installed. 
+---
 
-
-# Getting Started
-
-To import the models detailed in the paper:
-```Python
-from BrainGB.models import GAT, GCN, BrainNN, GCN
-```
-
-The BrainNN is required and will be served as the parent module of the GAT, GCN models. You may choose either GAT or GCN as the submodule. 
-
-To initialize a GCN model
-```Python
-sample: Data = Data()  # A torch geometric data
-
-num_features = data.x.shape[1]
-num_nodes = data.x.shape[0]
-gcn_model = GCN(num_features, num_nodes)
-
-model = BrainNN(args.pooling, gcn_model, MLP(2 * num_nodes))
-```
-
-To initialize a GAT model, simply replace the GCN with GAT. Both models are customizable. Please refer to the [Customizing Your Own GNN Models](#Customizing-Your-Own-GNN-Models) section for more details. 
-
-
-# Customizing Your Own GNN Models
-
-## Node Feature Construction
+### 4. Customizing Your Own GNN Models
+#### Node Feature Construction
 In `src.dataset.tranforms`, BrainGB provides the `BaseTransform` base class, which offers a universal interface for node feature initialization for each brain region. Specifically, BrainGB implements the following node feature construction functions: 
 
 | Node Features                            | Option Name        |
@@ -113,7 +147,7 @@ In `src.dataset.tranforms`, BrainGB provides the `BaseTransform` base class, whi
 
 To adjust the type of node features, simply set the chosen option name for the input parameter `node_features`.
 
-## Message Passing Mechanisms
+#### Message Passing Mechanisms
 In `models.gcn`, BrainGB provides the base class `MPGCNConv` and different message vector designs including: 
 | Message Passing Mechanisms                    | Option Name          |
 | ------------------------------------ | ------------------- |
@@ -125,7 +159,7 @@ In `models.gcn`, BrainGB provides the base class `MPGCNConv` and different messa
 
 To adjust the message passing schemes, simply set the input parameter `model_name` as `gcn` and chose an option name for the parameter `gcn_mp_type`.
 
-## Attention-Enhanced Message Passing
+#### Attention-Enhanced Message Passing
 In `models.gat`, BrainGB provides the base class `MPGATConv` and different versions of attention-enhanced message passing designs including:
 | Message Passing Mechanisms                    | Option Name          |
 | ------------------------------------ | ------------------- |
@@ -139,7 +173,7 @@ Note that some of these options are corresponding attention enhanced version of 
 
 To adjust the attention-enhanced message passing schemes, simply set the input parameter `model_name` as `gat` and chose an option name for the parameter `gat_mp_type`.
 
-## Pooling Strategies
+#### Pooling Strategies
 The pooling strategy is controlled by setting the `self.pooling` in the chosen model. Specifically, BrainGB implements the following three basic pooling strategies: 
 | Pooling Strategies                    | Option Name          |
 | ------------------------------------ | ------------------- |
@@ -149,38 +183,65 @@ The pooling strategy is controlled by setting the `self.pooling` in the chosen m
 
 To adjust the pooling strategies, simply set the chosen option name for the input parameter `pooling`.
 
-## 
 
-# Running Example Scripts
+---
 
-The repository also comes with example scripts. To train our model on any of the datasets we tested, simply run:
+## Integrating BrainGB into Your Workflow
+
+### 1. Install BrainGB as a package
+
+
+To integrate BrainGB into your research projects and leverage its capabilities, install the package via your package manager:
+
 ```shell
-python -m main.example_main --dataset_name=<dataset_name> [--model_name=<model_name> --gcn_mp_type=<mp_mechanism>  --gat_mp_type=<attention_mp_mechanism> --node_features=<feature_name> --pooling=<pooling_name> --n_GNN_layer=<GNN_num> --n_MLP_layers=<MLP_num> --hidden_dim=<hidden_layer_dimension> --epochs=<epoch_num> --k_fold_splits=<split_num> --test_interval=<evaluation_interval_num>]
+pip install BrainGB
 ```
+Notice that if you install the package through pip, the dependencies are automatically installed.
 
-The `dataset_name` is the name of the dataset to use (required parameter). We include the following four datasets in our paper:
+### 2. Incorporating BrainGB Models
 
-- HIV
-- PNC (Can be downloaded [here](https://www.nitrc.org/projects/pnc/))
-- PPMI (Can be downloaded [here](https://www.ppmi-info.org/access-data-specimens/download-data))
-- ABCD (Can be downloaded [here](https://nda.nih.gov/abcd))
+BrainGB provides modular components, making it easier to integrate with various projects. Import the necessary modules and initialize the models according to your research needs.
 
-You can also construct your own datasets by following the [instructions](https://brainnet.us/instructions/) on neuroimaging preprocessing and brain network construction on our website.
+```python
+from BrainGB.models import GAT, GCN, BrainNN
+```
+The BrainNN is required and will be served as the parent module of the GAT, GCN models. You may choose either GAT or GCN as the submodule.
 
-Please place the dataset files in the `datasets` folder under the package examples folder. Create the folder if it does not exist.
-
-The `model_name` specifies the backbone model type. Choose `gcn` to test the message passing variants without attention and `gat` to test the attention-enhanced message passing mechanisms. Specifically, use `gcn_mp_type` to set a message vector design and use `gat_mp_type` to set an attention-enhancing mechanism.
-
-The `node_features` specifies the artificial node feature initialization for each brain region.
-
-The `pooling` specifies the pooling strategy to get a graph-level representation for each subject.
-
-You can also change other hyper-parameters, such as `--n_GNN_layer`, `--n_MLP_layers`, `--hidden_dim`, `--epochs`, etc., to adjust the detailed model design or control the training process. All those hyper-parameters can be automatically searched and optimized using the AutoML tool [NNI](https://github.com/microsoft/nni) by passing `--enable_nni`.
+#### Model Initialization:  
+For a GCN-based setup:
+```python
+sample: Data = Data()  # A torch geometric data
+num_features = data.x.shape[1]
+num_nodes = data.x.shape[0]
+gcn_model = GCN(num_features, num_nodes)
+model = BrainNN(args.pooling, gcn_model, MLP(2 * num_nodes))
+```
+For a GAT-based setup, simply replace the GCN model initializations with GAT. Both models are customizable. Please refer to the [Customizing Your Own GNN Models](#4-customizing-your-own-gnn-models) section for more details. 
 
 
 # Contribution
 
 Feel free to open an [issue](issues/new) should you find anything unexpected or [create pull requests](pulls) to add your own work! We welcome contributions to this benchmark work and the package.
+
+
+# Other Publications on Brain Network Analysis
+
+Here's a list of publications from our research group related to Brain Network Analysis:
+
+| Year | Title                                                                                                             | Venue      | Code                                                                                           | Paper                                                                                                 |
+|------|-------------------------------------------------------------------------------------------------------------------|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| 2023 | Dynamic Brain Transformer with Multi-level Attention for Brain Network Analysis                                      | BHI 2023   | [Link](https://github.com/Wayfear/Dynamic-Brain-Transformer)                                     | [Link](https://arxiv.org/pdf/2309.01941.pdf)                                                         |
+| 2023 | TRANSFORMER-BASED HIERARCHICAL CLUSTERING FOR BRAIN NETWORK ANALYSIS                                                 | ISBI 2023  | [Link](https://github.com/DDVD233/THC)                                                          | [Link](https://www.cs.emory.edu/~jyang71/files/bthc.pdf)                                              |
+| 2023 | PTGB: Pre-Train Graph Neural Networks for Brain Network Analysis                                                     | CHIL 2023  | [Link](https://github.com/Owen-Yang-18/BrainNN-PreTrain)                                        | [Link](https://arxiv.org/pdf/2305.14376.pdf)                                                         |
+| 2022 | Interpretable Graph Neural Networks for Connectome-Based Brain Disorder Analysis                                    | MICCAI 2022 | [Link](https://github.com/HennyJie/IBGNN)                                                       | [Link](https://arxiv.org/abs/2207.00813)                                                             |
+| 2022 | FBNetGen: Task-aware GNN-based fMRI Analysis via Functional Brain Network Generation                                | MIDL 2022  | [Link](https://github.com/Wayfear/FBNETGEN)                                                     | [Link](https://arxiv.org/abs/2205.12465)                                                             |
+| 2022 | BRAIN NETWORK TRANSFORMER                                                                                        | NeurIPS 2022 | [Link](https://github.com/Wayfear/BrainNetworkTransformer)                                      | [Link](https://arxiv.org/abs/2210.06681)                                                             |
+| 2022 | Multi-View Brain Network Analysis with Cross-View Missing Network Generation                                        | BIBM 2022  | [Link](https://github.com/GongxuLuo/CroGen)                                                    | [Link](https://ieeexplore.ieee.org/document/9995283)                                                 |
+| 2022 | BrainGB: A Benchmark for Brain Network Analysis with Graph Neural Networks                                         | TMI 2022   | [Link](https://github.com/HennyJie/BrainGB)                                                    | [Link](https://arxiv.org/abs/2204.07054)                                                             |
+
+These publications offer a range of approaches and tools for those interested in Brain Network Analysis.
+
+
 
 # Citation
 
