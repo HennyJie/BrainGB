@@ -47,7 +47,7 @@ There are two ways to use BrainGB: the first is running direct experiments with 
 #### **ABIDE Dataset**
 We understand the challenges faced by researchers in accessing certain datasets due to restrictions. To facilitate your experimentation with BrainGB, we provide the [Autism Brain Imaging Data Exchange (ABIDE) dataset](http://fcon_1000.projects.nitrc.org/indi/abide/abide_I.html), which is publicly accessible and does not require special access permissions. 
 
-- [Download and Preprocess ABIDE dataset here](https://github.com/Wayfear/FBNETGEN/tree/main/util/abide)
+- [Download and Preprocess ABIDE dataset here](https://github.com/HennyJie/BrainGB/tree/master/examples/utils/get_abide)
 
 
 #### **Datasets Requiring Access**
