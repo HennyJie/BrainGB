@@ -228,7 +228,6 @@ Feel free to open an [issue](issues/new) should you find anything unexpected or 
 
 Here's a list of publications from our research group related to Brain Network Analysis:
 
-https://cs.emory.edu/~jyang71/files/bmixup-brainnn.pdf
 
 | Year | Title                                                                                                             | Venue      | Code                                                                                           | Paper                                                                                                 |
 |------|-------------------------------------------------------------------------------------------------------------------|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
