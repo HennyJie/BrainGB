@@ -111,7 +111,7 @@ Use the ABIDE dataset as an example, you should first place the dataset file "ab
 
 #### **Run the BrainGB code, execute the following command**:
 ```shell
-python -m main.example_main --dataset_name ABIDE --pooling concat --gcn_mp_type edge_node_concate --hidden_dim 256
+python -m examples.example_main --dataset_name ABIDE --pooling concat --gcn_mp_type edge_node_concate --hidden_dim 256
 ```
 The parameter `pooling` specifies the pooling strategy to get a graph-level representation for each subject and `gcn_mp_type` sets a message vector design for the `gcn` model. If you choose `gat` as the backbone model, you can use `gat_mp_type` to set an attention-enhancing mechanism.
 
