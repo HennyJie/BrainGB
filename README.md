@@ -68,27 +68,46 @@ Clone the repository and Install required dependencies:
 ```shell
 git clone https://github.com/HennyJie/BrainGB.git
 ```
-Navigate to the repository and install dependencies:
+It is recommended to use commands such as 'virtualenv' to create separate Python environments, in order to prevent conflicts in environment configurations:
 ```shell
-pip install -r requirements.txt
+virtualenv -p python3 venv
+source venv/bin/activate
 ```
-BrainGB depends on the following packages:
+**Install Dependencies:**
+BrainGB depends on the following packages. **The packages listed below are dependencies for systems with CUDA version 10.1. If you are using a different version of CUDA, please ensure to install the respective versions of these dependencies that are compatible with your CUDA version**. See [Pytorch version with different CUDA versions](https://pytorch.org/get-started/previous-versions/):
 ```
-torch~=1.10.2
+torch~=1.8.1+cu101
+torch-cluster~=1.5.9
+torch-scatter~=2.0.8       
+torch-sparse~=0.6.12
+torch-spline-conv~=1.2.1
+torch-geometric~=2.0.4
 numpy~=1.22.2
 nni~=2.4
-PyYAML~=5.4.1
 scikit-learn~=1.0.2
 networkx~=2.6.2
 scipy~=1.7.3
-tensorly~=0.6.0
-pandas~=1.4.1
-libsvm~=3.23.0.4
-matplotlib~=3.4.3
-tqdm~=4.62.3
-torch-geometric~=2.0.3
-h5py~=3.6.0
+pandas~=1.2.3
 ```
+First, install some of the dependencies with:
+```shell
+pip install -r requirements.txt
+```
+Next, install Pytorch:
+```shell
+pip install torch==1.8.1+cu101 torchvision==0.9.1+cu101 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+```
+Finally, install torch-cluster, torch-scatter, torch-sparse, torch-spline-conv and torch-geometric
+```shell
+pip install https://data.pyg.org/whl/torch-1.8.0%2Bcu101/torch_cluster-1.5.9-cp38-cp38-linux_x86_64.whl
+pip install https://data.pyg.org/whl/torch-1.8.0%2Bcu101/torch_scatter-2.0.8-cp38-cp38-linux_x86_64.whl
+pip install https://data.pyg.org/whl/torch-1.8.0%2Bcu101/torch_sparse-0.6.12-cp38-cp38-linux_x86_64.whl
+pip install https://data.pyg.org/whl/torch-1.8.0%2Bcu101/torch_spline_conv-1.2.1-cp38-cp38-linux_x86_64.whl
+pip install torch-geometric~=2.0.4
+```
+
+**Note**: If you face problems when installing dependencies like torch-cluster, torch-scatter, torch-sparse, torch-spline-conv, and torch-geometric, it is recommended to manually install the respective version of these packages using the **'.whl'** files available on their official website.
+
 
 ---
 
