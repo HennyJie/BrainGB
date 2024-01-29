@@ -29,6 +29,8 @@ def seed_everything(seed):
 
 
 def main(args):
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
+    
     if args.enable_nni:
         args = ModifiedArgs(args, nni.get_next_parameter())
 
